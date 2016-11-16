@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expander", "Expander\Expand
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsUpdater", "MsUpdater\MsUpdater.csproj", "{94EEB7B3-3077-4C07-8B21-E65118A8EE11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12437E3D-D399-4060-95E1-80D73044D92F}"
+	ProjectSection(SolutionItems) = preProject
+		Downloads\Version.txt = Downloads\Version.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,10 @@ Global
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

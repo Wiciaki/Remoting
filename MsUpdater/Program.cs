@@ -1,38 +1,42 @@
 ﻿namespace MsUpdater
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
+    using System.Net;
+    using System.Runtime.CompilerServices;
 
     internal static class Program
     {
-        private struct ResourceData
-        {
-            public string CloudPath;
-            
-            public string LocalPath;
-        }
-
-        private const string Downloads = "";
-
-        private static readonly List<ResourceData> Resources;
-
-        static Program()
-        {
-            var currentPath = Directory.GetCurrentDirectory();
-            var resourceNames = new List<string>();
-
-            Resources = resourceNames.ConvertAll(name => new ResourceData { CloudPath = Path.Combine(Downloads, name), LocalPath = Path.Combine(currentPath, name) });
-        }
-
         private static void Main(string[] args)
         {
             if (args == null)
             {
                 throw new ArgumentNullException(nameof(args));
             }
+            
+            var updater = Path.Combine(Directory.GetCurrentDirectory(), "Updater.exe");
 
+            if (File.Exists(updater))
+            {
+                File.Delete(updater);
+            }
+            
+            string webVersion;
 
+            using (var client = new WebClient())
+            {
+                webVersion = client.DownloadString("https://raw.githubusercontent.com/Wiciaki/Remoting/master/Download/Version.txt");
+            }
+
+            if (typeof(Program).Assembly.GetName().Version < new Version(webVersion))
+            {
+                File.WriteAllBytes(updater, Properties.Resources.Updater);
+                Process.Start(updater);
+                return;
+            }
+
+            RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
         }
     }
 }
