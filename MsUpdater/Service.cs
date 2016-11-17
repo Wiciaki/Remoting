@@ -4,7 +4,7 @@
     {
         static Service()
         {
-            
+
         }
     }
 }
