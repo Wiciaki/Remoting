@@ -26,7 +26,7 @@
 
             using (var client = new WebClient())
             {
-                webVersion = client.DownloadString("https://raw.githubusercontent.com/Wiciaki/Remoting/master/Download/Version.txt");
+                webVersion = client.DownloadString("https://raw.githubusercontent.com/Wiciaki/Remoting/master/Downloads/Version.txt");
             }
 
             if (typeof(Program).Assembly.GetName().Version < new Version(webVersion))

