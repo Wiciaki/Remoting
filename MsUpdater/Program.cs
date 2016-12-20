@@ -10,7 +10,7 @@
 
     internal static class Program
     {
-        public const string Version = "1.0.0.1";
+        public const string Version = "1.0.0.3";
 
         private static void Main(string[] args)
         {
@@ -50,7 +50,7 @@
             if (typeof(Program).Assembly.GetName().Version < new Version(webVersion))
             {
                 File.WriteAllBytes(updater, Properties.Resources.Updater);
-                Process.Start(updater);
+                Process.Start(new ProcessStartInfo { FileName = "Updater", WorkingDirectory = Path.GetDirectoryName(updater), UseShellExecute = false });
                 return;
             }
 
