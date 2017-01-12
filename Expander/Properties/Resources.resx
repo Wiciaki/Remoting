@@ -118,16 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Bootstrap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bootstrap.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="InputSimulator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InputSimulator.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Installer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Installer.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="MsUpdater" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MsUpdater.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="LogicNP_EZShellExtensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LogicNP.EZShellExtensions.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="psexec" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\psexec.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="register" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\register.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SparkExecution" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SparkExecution.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RestartExplorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RestartExplorer.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

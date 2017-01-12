@@ -63,6 +63,16 @@ namespace Expander.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Bootstrap {
+            get {
+                object obj = ResourceManager.GetObject("Bootstrap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] InputSimulator {
             get {
                 object obj = ResourceManager.GetObject("InputSimulator", resourceCulture);
@@ -83,9 +93,9 @@ namespace Expander.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] MsUpdater {
+        internal static byte[] LogicNP_EZShellExtensions {
             get {
-                object obj = ResourceManager.GetObject("MsUpdater", resourceCulture);
+                object obj = ResourceManager.GetObject("LogicNP_EZShellExtensions", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -93,9 +103,29 @@ namespace Expander.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] psexec {
+        internal static byte[] register {
             get {
-                object obj = ResourceManager.GetObject("psexec", resourceCulture);
+                object obj = ResourceManager.GetObject("register", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] RestartExplorer {
+            get {
+                object obj = ResourceManager.GetObject("RestartExplorer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SparkExecution {
+            get {
+                object obj = ResourceManager.GetObject("SparkExecution", resourceCulture);
                 return ((byte[])(obj));
             }
         }

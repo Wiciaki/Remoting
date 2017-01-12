@@ -1,18 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expander", "Expander\Expander.csproj", "{C51ED744-1978-4BA8-BB60-B635D26F0E5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsUpdater", "MsUpdater\MsUpdater.csproj", "{94EEB7B3-3077-4C07-8B21-E65118A8EE11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparkExecution", "SparkExecution\SparkExecution.csproj", "{D77FE604-D738-40EC-8311-1CDA03729EA2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12437E3D-D399-4060-95E1-80D73044D92F}"
-	ProjectSection(SolutionItems) = preProject
-		Downloads\Version.txt = Downloads\Version.txt
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrap", "Bootstrap\Bootstrap.csproj", "{BA01DFE3-A10F-4C05-AA6A-C1499DAC7DB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uninstall", "Uninstall\Uninstall.csproj", "{A20B42A4-3B62-42BA-802B-E749B44CA2F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +27,18 @@ Global
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94EEB7B3-3077-4C07-8B21-E65118A8EE11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED0FFD3F-E7CB-4C3C-AD30-8E9600213897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77FE604-D738-40EC-8311-1CDA03729EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77FE604-D738-40EC-8311-1CDA03729EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77FE604-D738-40EC-8311-1CDA03729EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77FE604-D738-40EC-8311-1CDA03729EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA01DFE3-A10F-4C05-AA6A-C1499DAC7DB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA01DFE3-A10F-4C05-AA6A-C1499DAC7DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA01DFE3-A10F-4C05-AA6A-C1499DAC7DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA01DFE3-A10F-4C05-AA6A-C1499DAC7DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20B42A4-3B62-42BA-802B-E749B44CA2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20B42A4-3B62-42BA-802B-E749B44CA2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20B42A4-3B62-42BA-802B-E749B44CA2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20B42A4-3B62-42BA-802B-E749B44CA2F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

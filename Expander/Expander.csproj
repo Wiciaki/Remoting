@@ -44,8 +44,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -76,9 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="paint.ico" />
-    <None Include="Resources\psexec.exe" />
+    <None Include="Resources\RestartExplorer.exe" />
+    <None Include="Resources\SparkExecution.dll" />
+    <None Include="Resources\register.exe" />
+    <None Include="Resources\LogicNP.EZShellExtensions.dll" />
+    <None Include="Resources\Bootstrap.exe" />
     <None Include="Resources\Installer.exe" />
-    <None Include="Resources\MsUpdater.exe" />
     <None Include="Resources\InputSimulator.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
