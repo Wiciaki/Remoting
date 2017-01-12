@@ -1,6 +1,7 @@
 ﻿namespace MsUpdater
 {
     using System;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
     internal static class Program
@@ -13,7 +14,7 @@
             }
 
             RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
-            Console.Read();
+            Process.GetCurrentProcess().WaitForExit();
         }
     }
 }

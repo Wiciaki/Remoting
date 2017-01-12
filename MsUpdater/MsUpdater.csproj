@@ -41,11 +41,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InputSimulator">
+      <HintPath>..\Expander\Resources\InputSimulator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DriveHelper.cs" />
+    <Compile Include="InputBlock.cs" />
+    <Compile Include="NotepadHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

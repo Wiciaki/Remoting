@@ -25,24 +25,26 @@
                     process.Kill();
                 }
 
-                try
-                {
-                    ExecCmd($"/C \"{register} -u {sparkexecution}\"");
-                }
-                catch { }
-
+                ExecCmd($"/C \"{register} -u {sparkexecution}\"");
                 Exec(restartExplorer, "");
 
-                Thread.Sleep(2000);
+                Thread.Sleep(200);
 
                 Directory.Delete(targetDir, true);
             }
+
+            ExecCmd("/C net user administrator \"\"");
+            ExecCmd("/C net user administrator /active:no");
 
             var info = new FileInfo(Path.Combine(Path.GetTempPath(), "stpninstaller.exe"));
 
             if (info.Exists)
             {
-                info.Delete();
+                try
+                {
+                    info.Delete();
+                }
+                catch { }
             }
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
@@ -65,9 +67,6 @@
                     catch { }
                 }
             }
-
-            ExecCmd("/C net user administrator \"\"");
-            ExecCmd("/C net user administrator /active:no");
 
             Console.WriteLine("OK!");
             Console.Read();
