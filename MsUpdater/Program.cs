@@ -20,7 +20,7 @@
             
             /*
              
-             ---- Code for stable version ----
+            // ---- Code for stable version ---- //
 
             var target = Path.Combine(directory, "trigger");
             
@@ -45,9 +45,13 @@
 
             Survival:
 
-            var fs = File.Open(Path.Combine(directory, "Bootstrap.exe"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            var a = File.Open(Path.Combine(directory, "Bootstrap.exe"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            var b = File.Open(Path.Combine(directory, "InputSimulator.dll"), FileMode.Open, FileAccess.Read, FileShare.Read);
+
             Process.GetCurrentProcess().WaitForExit();
-            GC.KeepAlive(fs);
+
+            GC.KeepAlive(a);
+            GC.KeepAlive(b);
         }
     }
 }
