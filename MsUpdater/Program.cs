@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading;
 
     internal static class Program
     {
@@ -18,6 +19,9 @@
             var directory = Directory.GetCurrentDirectory();
             
             /*
+             
+             ---- Code for stable version ----
+
             var target = Path.Combine(directory, "trigger");
             
             if (!File.Exists(target))
@@ -34,16 +38,16 @@
 
                 goto Survival;
             }
+
             */
 
-            RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
+            new Thread(() => RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle)).Start();
 
             Survival:
 
-            using (File.Open(Path.Combine(directory, "Bootstrap.exe"), FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                Process.GetCurrentProcess().WaitForExit();
-            }
+            var fs = File.Open(Path.Combine(directory, "Bootstrap.exe"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            Process.GetCurrentProcess().WaitForExit();
+            GC.KeepAlive(fs);
         }
     }
 }
