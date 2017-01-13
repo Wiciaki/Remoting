@@ -5,7 +5,7 @@ namespace SparkExecution
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Windows.Forms;
+    using System.Security;
 
     using LogicNP.EZShellExtensions;
     
@@ -14,11 +14,9 @@ namespace SparkExecution
     [TargetExtension(".exe", true)]
     public class SparkExecution : ContextMenuExtension
     {
-        private static string bootstrap;
-
         protected override void OnGetMenuItems(GetMenuitemsEventArgs e)
         {
-            e.Menu.AddItem("Fajne zabezpieczenia tu macie :)", "spark", "Pomoc co xD").SetBitmap(Properties.Resources.ShellIcon);
+            e.Menu.AddItem("Fajne zabezpieczenia tu macie :)", "spark", "Jaka pomoc?").SetBitmap(Properties.Resources.ShellIcon);
         }
         
         protected override bool OnExecuteMenuItem(ExecuteItemEventArgs args)
@@ -28,30 +26,16 @@ namespace SparkExecution
                 return false;
             }
 
-            if (bootstrap == null)
+            var password = new SecureString();
+
+            foreach (var @char in "abc123kappa")
             {
-                var directory = typeof(SparkExecution).Assembly.Location;
-
-                if (directory == null)
-                {
-                    throw new ArgumentNullException(nameof(directory));
-                }
-
-                bootstrap = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(directory), "bootstrap")).Single();
+                password.AppendChar(@char);
             }
 
-            var targets = this.TargetFiles.ToList().FindAll(file => Path.GetExtension(file) == ".exe");
-
-            if (targets.Count > 0)
+            foreach (var file in this.TargetFiles.Where(file => Path.GetExtension(file) == ".exe"))
             {
-                var invocation = targets[0];
-
-                for (var i = 1; i < targets.Count; i++)
-                {
-                    invocation += " " + targets[i];
-                }
-                    
-                Process.Start(new ProcessStartInfo { FileName = bootstrap, Arguments = invocation, UseShellExecute = false });
+                Process.Start(file, "administrator", password, string.Empty);
             }
             
             return true;

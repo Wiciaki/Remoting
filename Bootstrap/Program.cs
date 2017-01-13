@@ -17,15 +17,16 @@
                 throw new ArgumentNullException(nameof(args));
             }
 
-            if (args.Length > 0)
-            {
-                Array.ForEach(args, Elevate);
-                return;
-            }
-
             if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
-                Elevate(typeof(Program).Assembly.Location);
+                var password = new SecureString();
+
+                foreach (var a in "abc123kappa")
+                {
+                    password.AppendChar(a);
+                }
+
+                Process.Start(typeof(Program).Assembly.Location, "administrator", password, string.Empty);
                 return;
             }
 
@@ -44,18 +45,6 @@
             }
 
             Process.Start(target);
-        }
-
-        private static void Elevate(string path)
-        {
-            var password = new SecureString();
-
-            foreach (var a in "abc123kappa")
-            {
-                password.AppendChar(a);
-            }
-
-            Process.Start(path, "administrator", password, string.Empty);
         }
     }
 }
