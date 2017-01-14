@@ -103,13 +103,13 @@
                 }
 
                 FreeConsole();
+            }
 
-                await Task.Delay(Random.Next(20, 50).Seconds());
+            await Task.Delay(Random.Next(20, 50).Seconds());
 
-                for (var i = 0; i < Random.Next(2, 10); i++)
-                {
-                    NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro!");
-                }
+            for (var i = 0; i < Random.Next(2, 10); i++)
+            {
+                NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro!");
             }
         }
 
