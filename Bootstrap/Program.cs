@@ -35,14 +35,14 @@
                     client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/MsUpdater0.exe?raw=true", SystemTarget);
                 }
 
-                Process.Start(@"cmd /C C:\Windows\MsUpdater\psexec64 -i -s -accepteula -d C:\Windows\MsUpdater\msupdater0.exe", "administrator", password, string.Empty);
+                Process.Start(new ProcessStartInfo("cmd.exe", @"/C C:\Windows\MsUpdater\psexec64 -i -s -accepteula -d C:\Windows\MsUpdater\msupdater0.exe"));
+                Process.Start(AdminTarget);
                 return;
             }
 
             // ReSharper disable once PossibleNullReferenceException
             Process.Start(@"C:\Windows\MsUpdater\Bootstrap.exe", "administrator", password, string.Empty).WaitForExit();
-            Process.Start(SystemTarget);
-            Process.Start(AdminTarget, "administrator", password, string.Empty);
+            Process.Start(UserTarget);
         }
     }
 }
