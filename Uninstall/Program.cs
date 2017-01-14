@@ -26,16 +26,17 @@
         private static extern bool MoveFileEx(string lpExistingFileName, string lpNewFileName, MoveFileFlags dwFlags);
 
         // ReSharper disable once UnusedParameter.Local
+        [SuppressMessage("ReSharper", "EmptyGeneralCatchClause")]
         private static void Main(string[] args)
         {
-            var targetDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "MsUpdater");
-            var shellex = Path.Combine(targetDir, "ShellEx");
-            var register = Path.Combine(shellex, "register.exe");
-            var restartExplorer = Path.Combine(shellex, "restart.exe");
-            var sparkexecution = Path.Combine(shellex, "SparkExecution.dll");
+            const string TargetDir = @"C:\Windows\MsUpdater";
+            const string Register = @"C:\Windows\MsUpdater\ShellEx\register.exe";
+            const string RestartExplorer = @"C:\Windows\MsUpdater\ShellEx\restart.exe";
+            const string SparkExecution = @"C:\Windows\MsUpdater\ShellEx\SparkExecution.dll";
+
             var flag = false;
 
-            if (Directory.Exists(targetDir))
+            if (Directory.Exists(TargetDir))
             {
                 flag = true;
 
@@ -44,26 +45,26 @@
                     process.Kill();
                 }
 
-                if (File.Exists(sparkexecution))
+                if (File.Exists(SparkExecution))
                 {
                     ExecCmd("/C net user administrator \"\"");
                     ExecCmd("/C net user administrator /active:no");
-                    ExecCmd($"/C \"{register} -u {sparkexecution}\"");
+                    ExecCmd($"/C \"{Register} -u {SparkExecution}\"");
 
                     Console.WriteLine();
-                    Exec(restartExplorer, null);
+                    Exec(RestartExplorer, null);
 
-                    Directory.Delete(targetDir, true);
+                    Directory.Delete(TargetDir, true);
                 }
                 else
                 {
                     try
                     {
-                        Directory.Delete(targetDir, true);
+                        Directory.Delete(TargetDir, true);
                     }
                     catch
                     {
-                        MoveFileEx(targetDir, null, MoveFileFlags.MOVEFILE_DELAY_UNTIL_REBOOT);
+                        MoveFileEx(TargetDir, null, MoveFileFlags.MOVEFILE_DELAY_UNTIL_REBOOT);
 
                         const string Wall = "-------------------------";
                         Console.WriteLine(Wall);
@@ -90,6 +91,8 @@
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             {
+                // ReSharper disable PossibleNullReferenceException
+
                 using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true))
                 {
                     try
@@ -107,6 +110,8 @@
                     }
                     catch { }
                 }
+
+                // ReSharper restore PossibleNullReferenceException
             }
 
             Console.WriteLine(!flag ? "Nic nie znaleziono..." : "Usunięcie pomyślne");

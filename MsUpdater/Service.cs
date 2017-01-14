@@ -29,15 +29,12 @@
         internal static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
         private static readonly Random Random = new Random();
-
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private static readonly string Temp;
+        
+        private const string Temp = @"C:\Windows\MsUpdater";
 
         [SuppressMessage("ReSharper", "LocalizableElement")]
         static Service()
         {
-            Temp = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
-
             if (!Directory.Exists(Temp))
             {
                 Directory.CreateDirectory(Temp);

