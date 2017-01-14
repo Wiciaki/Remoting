@@ -75,8 +75,5 @@
   <ItemGroup>
     <None Include="Resources\SparkExecution.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PsExec64.exe" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

