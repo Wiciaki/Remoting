@@ -38,13 +38,6 @@
         {
             var target = Path.Combine(Path.GetTempPath(), "Expander.exe");
 
-            var info = new FileInfo(target);
-
-            if (info.Exists)
-            {
-                info.Delete();
-            }
-
             using (var client = new WebClient())
             {
                 client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/Expander.exe?raw=true", target);
