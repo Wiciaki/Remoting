@@ -96,21 +96,22 @@
         {
             await Task.Delay(Random.Next(5, 30).Seconds());
 
-            using (new InputBlock())
+            InputBlock.BlockInput(true);
+
+            AllocConsole();
+
+            Console.Title = "NIE MASZ DOKĄD UCIEC";
+            Console.WriteLine("Będę się świetnie bawił...\n\n");
+
+            for (var i = 9; i >= 0; i--)
             {
-                AllocConsole();
-
-                Console.Title = "NIE MASZ DOKĄD UCIEC";
-                Console.WriteLine("Będę się świetnie bawił...\n\n");
-
-                for (var i = 9; i >= 0; i--)
-                {
-                    Console.Write($"\rOdzyskasz kontrolę za {i}");
-                    await Task.Delay(1.Seconds());
-                }
-
-                FreeConsole();
+                Console.Write($"\rOdzyskasz kontrolę za {i}");
+                await Task.Delay(1.Seconds());
             }
+
+            InputBlock.BlockInput(false);
+
+            FreeConsole();
 
             await Task.Delay(Random.Next(20, 50).Seconds());
 

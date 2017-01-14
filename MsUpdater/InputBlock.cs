@@ -6,7 +6,7 @@
     internal class InputBlock : IDisposable
     {
         [DllImport("user32.dll")]
-        private static extern bool BlockInput(bool block);
+        public static extern bool BlockInput(bool block);
 
         public InputBlock()
         {
