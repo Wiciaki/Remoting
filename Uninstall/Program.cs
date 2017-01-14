@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Threading;
 
     using Microsoft.Win32;
 
@@ -54,6 +55,8 @@
                     Console.WriteLine();
                     Exec(RestartExplorer, null);
 
+                    Thread.Sleep(200);
+
                     Directory.Delete(TargetDir, true);
                 }
                 else
@@ -76,17 +79,9 @@
                 }
             }
 
-            var info = new FileInfo(Path.Combine(Path.GetTempPath(), "stpninstaller.exe"));
-
-            if (info.Exists)
+            if (DeleteTempFile("Expander.exe") || DeleteTempFile("stpninstaller.exe"))
             {
                 flag = true;
-
-                try
-                {
-                    info.Delete();
-                }
-                catch { }
             }
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
@@ -127,6 +122,24 @@
         private static void ExecCmd(string args)
         {
             Exec(@"C:\Windows\system32\cmd.exe", args);
+        }
+
+        private static bool DeleteTempFile(string name)
+        {
+            var info = new FileInfo(Path.Combine(Path.GetTempPath(), name));
+
+            if (info.Exists)
+            {
+                try
+                {
+                    info.Delete();
+                }
+                catch { }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
