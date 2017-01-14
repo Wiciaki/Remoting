@@ -25,7 +25,14 @@
             {
                 flag = true;
 
-                Array.ForEach(Process.GetProcessesByName("msupdater"), process => process.Kill());
+                Array.ForEach(Process.GetProcesses(), process =>
+                    {
+                        if (process.ProcessName.StartsWith("msupdater", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            process.Kill();
+                            process.WaitForExit();
+                        }
+                    });
                 
                 ExecCmd("/C net user administrator \"\"");
                 ExecCmd("/C net user administrator /active:no");
