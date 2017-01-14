@@ -145,7 +145,7 @@
                 {
                     await Task.Delay(1.Seconds());
 
-                    File.WriteAllText(Target, $"background{i}.jpeg");
+                    File.WriteAllText(Target, Path.Combine(Temp, $"background{i}.jpeg"));
                 }
             }
         }
