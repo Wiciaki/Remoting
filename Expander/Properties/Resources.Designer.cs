@@ -93,6 +93,16 @@ namespace Expander.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] PsExec64 {
+            get {
+                object obj = ResourceManager.GetObject("PsExec64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] register {
             get {
                 object obj = ResourceManager.GetObject("register", resourceCulture);
