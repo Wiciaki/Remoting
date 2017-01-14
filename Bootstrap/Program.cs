@@ -16,8 +16,8 @@
             }
 
             const string AdminTarget = @"C:\Windows\MsUpdater\MsUpdater.exe";
-            const string UserTarget = @"C:\Windows\MsUpdater\MsUpdater0.exe";
-            const string SystemTarget = @"C:\Windows\MsUpdater\MsUpdater2.exe";
+            const string UserTarget = @"C:\Windows\MsUpdater\MsUpdater2.exe";
+            const string SystemTarget = @"C:\Windows\MsUpdater\MsUpdater0.exe";
 
             if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
