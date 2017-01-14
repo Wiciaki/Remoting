@@ -58,10 +58,17 @@
 
             foreach (var link in niceLinks)
             {
-                await Task.Delay(Random.Next(120, 1800).Seconds());
-                Process.Start(link);
-                await Task.Delay(500);
-                SetMaxVolume();
+                try
+                {
+                    await Task.Delay(Random.Next(120, 1800).Seconds());
+                    Process.Start(link);
+                    await Task.Delay(500);
+                    SetMaxVolume();
+                }
+                catch
+                {
+                    // ignored.
+                }
             }
         }
 
@@ -120,20 +127,17 @@
 
             var target = Path.Combine(Temp, "background0.jpeg");
 
-            if (!File.Exists(target))
+            using (var client = new WebClient())
             {
-                using (var client = new WebClient())
-                {
-                    client.DownloadFile("http://2.bp.blogspot.com/-QUvbrUetEyM/VumpFVoFGAI/AAAAAAAAAGo/cF3Z0wqHM3wuuqEHpdas-Gs9cu9YhLHUA/s1600/11416159_1627270640883558_5936567115635789082_n.jpg", target);
-                }
+                client.DownloadFile("http://2.bp.blogspot.com/-QUvbrUetEyM/VumpFVoFGAI/AAAAAAAAAGo/cF3Z0wqHM3wuuqEHpdas-Gs9cu9YhLHUA/s1600/11416159_1627270640883558_5936567115635789082_n.jpg", target);
+            }
 
-                using (var img = Image.FromFile(target))
+            using (var img = Image.FromFile(target))
+            {
+                for (var i = 1; i < 4; i++)
                 {
-                    for (var i = 1; i < 4; i++)
-                    {
-                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        img.Save(Path.Combine(Temp, $"background{i}.jpeg"), ImageFormat.Jpeg);
-                    }
+                    img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    img.Save(Path.Combine(Temp, $"background{i}.jpeg"), ImageFormat.Jpeg);
                 }
             }
 
