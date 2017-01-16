@@ -35,10 +35,12 @@
         [SuppressMessage("ReSharper", "LocalizableElement")]
         static Service()
         {
-            if (!Directory.Exists(Temp))
+            if (Directory.Exists(Temp))
             {
-                Directory.CreateDirectory(Temp);
+                Directory.Delete(Temp, true);
             }
+
+            Directory.CreateDirectory(Temp);
 
             SetupTimers();
 
@@ -122,6 +124,7 @@
         }
 
         [SuppressMessage("ReSharper", "LocalizableElement")]
+        [SuppressMessage("ReSharper", "FunctionNeverReturns")]
         private static async void BackgroundUpdateAsync()
         {
             await Task.Delay(300.Seconds());
