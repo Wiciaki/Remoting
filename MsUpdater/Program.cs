@@ -30,8 +30,10 @@
 
             if (reboots != 0)
             {
+#if !DEBUG
                 File.WriteAllText(Target, (reboots - 1).ToString());
                 return;
+#endif
             }
 
             using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))

