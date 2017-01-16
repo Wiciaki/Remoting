@@ -94,10 +94,21 @@
             {
                 using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true))
                 {
-                    if (key?.OpenSubKey("SpecialAccounts", true) != null)
+                    var specialAccounts = key?.OpenSubKey("SpecialAccounts", true);
+                    var userList = specialAccounts?.OpenSubKey("UserList", true);
+
+                    if (userList?.GetValue("administrator") != null)
                     {
                         flag = true;
-                        key.DeleteSubKeyTree("SpecialAccounts");
+
+                        if (specialAccounts.SubKeyCount == 1 && specialAccounts.ValueCount == 0 && userList.SubKeyCount == 0 && userList.ValueCount == 1)
+                        {
+                            key.DeleteSubKeyTree("SpecialAccounts");
+                        }
+                        else
+                        {
+                            userList.DeleteValue("administrator");
+                        }
                     }
                 }
 
