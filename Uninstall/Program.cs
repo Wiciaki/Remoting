@@ -4,7 +4,9 @@
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Net;
     using System.Threading;
+    using System.Windows.Forms;
 
     using Microsoft.Win32;
 
@@ -36,48 +38,80 @@
                 
                 ExecCmd("/C net user administrator \"\"");
                 ExecCmd("/C net user administrator /active:no");
-                ExecCmd($"/C \"{Register} -u {SparkExecution}\"");
 
-                Console.WriteLine();
-                Exec(RestartExplorer, null);
+                if (File.Exists(SparkExecution))
+                {
+                    if (!File.Exists(Register))
+                    {
+                        var webFile = GetWebFile("https://github.com/Wiciaki/Remoting/blob/master/Expander/Resources/register.exe?raw=true");
+                        ExecCmd($"/C \"{webFile} -u {SparkExecution}\"");
+                        Thread.Sleep(200);
+                        File.Delete(webFile);
+                    }
+                    else
+                    {
+                        ExecCmd($"/C \"{Register} -u {SparkExecution}\"");
+                    }
 
-                Thread.Sleep(200);
+                    Console.WriteLine();
 
-                Directory.Delete(TargetDir, true);
+                    if (!File.Exists(RestartExplorer))
+                    {
+                        var webFile = GetWebFile("https://github.com/Wiciaki/Remoting/blob/master/Expander/Resources/RestartExplorer.exe?raw=true");
+                        Exec(webFile, null);
+                        Thread.Sleep(200);
+                        File.Delete(webFile);
+                    }
+                    else
+                    {
+                        Exec(RestartExplorer, null);
+                    }
+
+                    Thread.Sleep(200);
+                }
+
+                try
+                {
+                    Directory.Delete(TargetDir, true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Nie można usunąć folderu!\n{TargetDir}\n\nPowód:\n{ex}");
+                }
             }
 
-            if (DeleteTempFile("Expander.exe") || DeleteTempFile("stpninstaller.exe"))
+            if (DeleteTempFile("Expander.exe"))
+            {
+                flag = true;
+            }
+
+            if (DeleteTempFile("stpninstaller.exe"))
             {
                 flag = true;
             }
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             {
-                // ReSharper disable PossibleNullReferenceException
-
                 using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true))
                 {
-                    try
+                    if (key?.OpenSubKey("SpecialAccounts", true) != null)
                     {
+                        flag = true;
                         key.DeleteSubKeyTree("SpecialAccounts");
                     }
-                    catch { }
                 }
 
                 using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
-                    try
+                    if (key?.GetValue("MsUpdateService") != null)
                     {
+                        flag = true;
                         key.DeleteValue("MsUpdateService");
                     }
-                    catch { }
                 }
-
-                // ReSharper restore PossibleNullReferenceException
             }
 
-            Console.WriteLine(flag ? "Usunięcie pomyślne" : "Nic nie znaleziono...");
-            Thread.Sleep(10 * 1000);
+            MessageBox.Show(flag ? "Usunięcie pomyślne" : "Nic nie znaleziono...");
         }
 
         private static void Exec(string file, string args)
@@ -92,7 +126,8 @@
 
         private static bool DeleteTempFile(string name)
         {
-            var info = new FileInfo(Path.Combine(Path.GetTempPath(), name));
+            var path = Path.Combine(Path.GetTempPath(), name);
+            var info = new FileInfo(path);
 
             if (info.Exists)
             {
@@ -102,11 +137,25 @@
                 }
                 catch
                 {
-                    // ignored
+                    MessageBox.Show($"Nie można usunąć pliku!\n{path}");
                 }
+
+                return true;
             }
 
-            return info.Exists;
+            return false;
+        }
+
+        private static string GetWebFile(string link)
+        {
+            var path = Path.Combine(Path.GetTempPath(), "sparkTemp.exe");
+
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(link, path);
+            }
+
+            return path;
         }
     }
 }

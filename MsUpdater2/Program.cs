@@ -23,19 +23,19 @@
             var lastPath = "";
 
             new Timer(1000d) { Enabled = true }.Elapsed += delegate
+            {
+                if (!File.Exists(Target))
                 {
-                    if (!File.Exists(Target))
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    var path = File.ReadAllLines(Target).Single();
+                var path = File.ReadAllLines(Target).Single();
 
-                    if (lastPath != path)
-                    {
-                        SystemParametersInfo(20, 0, lastPath = path, 3);
-                    }
-                };
+                if (lastPath != path)
+                {
+                    SystemParametersInfo(20, 0, lastPath = path, 3);
+                }
+            };
 
             Process.GetCurrentProcess().WaitForExit();
         }
