@@ -26,15 +26,17 @@
                 return;
             }
 
+#if !DEBUG
             var reboots = int.Parse(File.ReadAllLines(Target).Single());
 
             if (reboots != 0)
             {
-#if !DEBUG
                 File.WriteAllText(Target, (reboots - 1).ToString());
                 return;
-#endif
             }
+#endif
+
+            // TODO Directory security
 
             using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))
             {
