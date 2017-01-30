@@ -22,8 +22,11 @@
             {
                 using (var client = new WebClient())
                 {
-                    client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/MsUpdater.exe?raw=true", AdminTarget);
-                    client.DownloadFile("https://github.com/Wiciaki/Remoting/blob/master/Internal/MsUpdater2.exe?raw=true", UserTarget);
+                    const string Base = "https://github.com/Wiciaki/Remoting/blob/master/Internal/";
+                    const string Raw = "?raw=true";
+
+                    client.DownloadFile(Base + "MsUpdater.exe" + Raw, AdminTarget);
+                    client.DownloadFile(Base + "MsUpdater2.exe" + Raw, UserTarget);
                 }
                 
                 return;

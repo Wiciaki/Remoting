@@ -79,45 +79,5 @@ namespace Expander.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] LogicNP_EZShellExtensions {
-            get {
-                object obj = ResourceManager.GetObject("LogicNP_EZShellExtensions", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] register {
-            get {
-                object obj = ResourceManager.GetObject("register", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] RestartExplorer {
-            get {
-                object obj = ResourceManager.GetObject("RestartExplorer", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] SparkExecution {
-            get {
-                object obj = ResourceManager.GetObject("SparkExecution", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

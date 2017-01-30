@@ -63,17 +63,5 @@
   <ItemGroup>
     <None Include="Resources\InputSimulator.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LogicNP.EZShellExtensions.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\register.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RestartExplorer.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SparkExecution.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

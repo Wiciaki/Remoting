@@ -17,7 +17,8 @@
             }
 
             Thread.Sleep(200);
-            
+
+#if !DEBUG
             const string Target = @"C:\Windows\MsUpdater\trigger";
             
             if (!File.Exists(Target))
@@ -26,7 +27,6 @@
                 return;
             }
 
-#if !DEBUG
             var reboots = int.Parse(File.ReadAllLines(Target).Single());
 
             if (reboots != 0)
@@ -42,11 +42,8 @@
             {
                 using (File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (File.Open(Target, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
-                        Process.GetCurrentProcess().WaitForExit();
-                    }
+                    RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
+                    Process.GetCurrentProcess().WaitForExit();
                 }
             }
         }
