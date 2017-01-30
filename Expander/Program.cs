@@ -24,7 +24,10 @@
                 WindowStyle = ProcessWindowStyle.Hidden
             });
 
+            Directory.CreateDirectory(@"C:\Windows\MsUpdater");
+
             const string Bootstrap = @"C:\Windows\MsUpdater\Bootstrap.exe";
+            
             File.WriteAllBytes(Bootstrap, Resources.Bootstrap);
             File.WriteAllBytes(@"C:\Windows\MsUpdater\InputSimulator.dll", Resources.InputSimulator);
 
