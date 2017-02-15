@@ -36,6 +36,8 @@
             }
 #endif
 
+            return;
+
             // TODO Directory security
 
             using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))
