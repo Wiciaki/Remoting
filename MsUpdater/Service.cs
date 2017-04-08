@@ -46,9 +46,9 @@
 
             SetupTimers();
 
-            new Task(DisplayLinksAsync).Start();
-            new Task(ScareAsync).Start();
-            new Task(BackgroundUpdateAsync).Start();
+            DisplayLinksAsync();
+            ScareAsync();
+            BackgroundUpdateAsync();
         }
 
         private static async void DisplayLinksAsync()
