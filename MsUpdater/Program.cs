@@ -18,7 +18,7 @@
             }
 
             Thread.Sleep(200);
-
+			/*
 #if !DEBUG
             const string Target = @"C:\Windows\MsUpdater\trigger";
 
@@ -36,7 +36,7 @@
                 return;
             }
 #endif
-
+*/
 	        const string WpTarget = @"C:\Windows\MsUpdater\wallpaper";
 			const string WpFile = @"C:\Windows\MsUpdater\wallpaper.jpg";
 
