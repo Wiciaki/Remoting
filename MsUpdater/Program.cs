@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Net;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
     using System.Threading;
 
     internal static class Program
@@ -38,7 +37,7 @@
             }
 #endif
 
-	        const string WpTarget = @"C:\Windows\MsUpdater\Temp\wallpaper";
+	        const string WpTarget = @"C:\Windows\MsUpdater\wallpaper";
 			const string WpFile = @"C:\Windows\MsUpdater\wallpaper.jpg";
 
             using (var client = new WebClient())
