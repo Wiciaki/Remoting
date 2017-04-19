@@ -19,7 +19,7 @@
                 throw new ArgumentNullException(nameof(args));
             }
 
-            const string Target = @"C:\Windows\MsUpdater\Temp\wallpaper";
+            const string Target = @"C:\Windows\MsUpdater\wallpaper";
             var lastPath = "";
 
             new Timer(1000d) { Enabled = true }.Elapsed += delegate

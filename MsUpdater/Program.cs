@@ -45,7 +45,7 @@
                 client.DownloadFile("https://images4.alphacoders.com/121/thumb-1920-121678.jpg", WpFile);
             }
 
-			File.WriteAllText(WpTarget, WpTarget);
+			File.WriteAllText(WpTarget, WpFile);
 
             return;
 
