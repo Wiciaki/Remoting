@@ -11,9 +11,6 @@
 
     internal static class Program
     {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-
         private static void Main(string[] args)
         {
             if (args == null)
@@ -41,14 +38,15 @@
             }
 #endif
 
-            const string WpFile = @"C:\Windows\MsUpdater\wallpaper.jpg";
+	        const string WpTarget = @"C:\Windows\MsUpdater\Temp\wallpaper";
+			const string WpFile = @"C:\Windows\MsUpdater\wallpaper.jpg";
 
             using (var client = new WebClient())
             {
                 client.DownloadFile("https://images4.alphacoders.com/121/thumb-1920-121678.jpg", WpFile);
             }
 
-            SystemParametersInfo(20, 0, WpFile, 3);
+			File.WriteAllText(WpTarget, WpTarget);
 
             return;
 
