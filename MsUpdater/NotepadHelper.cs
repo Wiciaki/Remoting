@@ -15,22 +15,24 @@
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         private static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
 
-        public static void ShowMessage(string message = null, string title = null)
+        public static void ShowMessage(string message, string title)
         {
-            Process notepad = Process.Start(new ProcessStartInfo("notepad.exe"));
-            if (notepad != null)
-            {
-                notepad.WaitForInputIdle();
+            var notepad = Process.Start(new ProcessStartInfo("notepad.exe"));
 
-                if (!string.IsNullOrEmpty(title))
-                    SetWindowText(notepad.MainWindowHandle, title);
+            if (notepad == null) 
+                return;
 
-                if (!string.IsNullOrEmpty(message))
-                {
-                    var child = FindWindowEx(notepad.MainWindowHandle, new IntPtr(0), "Edit", null);
-                    SendMessage(child, 0x000C, 0, message);
-                }
-            }
+            notepad.WaitForInputIdle();
+
+            if (!string.IsNullOrEmpty(title))
+                SetWindowText(notepad.MainWindowHandle, title);
+
+            if (string.IsNullOrEmpty(message)) 
+                return;
+
+            var child = FindWindowEx(notepad.MainWindowHandle, new IntPtr(0), "Edit", null);
+
+            SendMessage(child, 0x000C, 0, message);
         }
     }
 }
