@@ -16,8 +16,9 @@ namespace MsUpdater
 
         private static readonly List<string> Linki = new List<string>
         {
-            "https://images4.alphacoders.com/121/thumb-1920-121678.jpg",
-
+            "https://raw.githubusercontent.com/Wiciaki/Remoting/master/Wallpapers/BIEDRONKA.jpg",
+            "https://raw.githubusercontent.com/Wiciaki/Remoting/master/Wallpapers/WONSZ.jpg",
+            "https://raw.githubusercontent.com/Wiciaki/Remoting/master/Wallpapers/%C5%BCuk.jpg"
         };
 
         static Service()
