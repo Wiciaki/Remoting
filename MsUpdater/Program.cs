@@ -21,7 +21,7 @@
             Thread.Sleep(200);
 
 #if !DEBUG
-            const string target = @"C:\Windows\MsUpdater\trigger";
+            const string target = @"C:\Windows\MsUpdater\triggerCount";
 
             if (!File.Exists(target))
             {

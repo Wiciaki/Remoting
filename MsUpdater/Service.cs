@@ -1,13 +1,12 @@
-﻿using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-
-namespace MsUpdater
+﻿namespace MsUpdater
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
 
     [SuppressMessage("ReSharper", "FunctionNeverReturns")]
     internal static class Service
@@ -30,13 +29,25 @@ namespace MsUpdater
 
         private static async void HandleWallpaper()
         {
-            Directory.CreateDirectory(@"C:\Windows\MsUpdater");
+            var i = Random.Next(0, Linki.Count - 1);
 
-            for (var i = 0; ; i = i + 1 % Linki.Count)
+            while (true)
             {
+                if (++i == Linki.Count)
+                {
+                    i = 0;
+                }
+
                 await Task.Delay(Random.Next(6, 10) * 1000 * 60);
 
-                var target = Path.GetTempFileName();
+                var target = Path.Combine(Path.GetTempPath(), "wallpaper" + i + ".jpg");
+
+                var info = new FileInfo(target);
+
+                if (info.Exists)
+                {
+                    info.Delete();
+                }
 
                 using (var client = new WebClient())
                 {
@@ -52,9 +63,8 @@ namespace MsUpdater
             while (true)
             {
                 await Task.Delay(Random.Next(6, 10) * 1000 * 60);
-
-                var index = Random.Next(0, Przepisy.Count - 1);
-                var przepis = Przepisy.ElementAt(index);
+                
+                var przepis = Przepisy.ElementAt(Random.Next(0, Przepisy.Count - 1));
 
                 NotepadHelper.ShowMessage(przepis.Value, przepis.Key);
             }
@@ -104,6 +114,21 @@ Kroimy truskawki i dodajemy do miski.
 
 Krok piąty
 Wszystko mieszamy. Już możemy jeść."
+            },
+            {
+                "Wiejska kanapka z pastą serową i czarnymi jagodami",
+                @"Składniki:
+
+100 g świeżego koziego sera
+100 g sera roquefort
+1 łyżka naturalnego jogurtu greckiego
+1 łyżeczka cukru
+4 kromki wiejskiego chleba
+garść czarnych jagód lub borówek amerykańskich
+
+Oba rodzaje sera rozgniatamy widelcem, łączymy z jogurtem i cukrem.
+Kromki chleba smarujemy pastą serową, posypujemy jagodami lub innymi sezonowymi owocami leśnymi.
+"
             }
         };
     }
